@@ -13,7 +13,6 @@ Referentes a la primer parte de la tarea sobre el sistema de recomendación.
 ######  script.Rmd reproducible y documentado
 ######  script.R reproducible y documentado
 ######  README.md 
-######  Informe.pdf 
 ######  Todos los csv necesarios en la tarea
 
 ## Desarrolladora
