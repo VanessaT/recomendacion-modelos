@@ -211,36 +211,53 @@ matriz=as.data.frame(matriz)
 kmedias = kmeans(x = matriz,
                    centers = 8)
 
-#Cantidad de Ususrios por cluster
+#Cantidad de Usuarios por cluster
 table=table(kmedias$cluster)
 
 # Funcion ROC
 generate_ROC = function(scores, real, target){
-  scores=sort(scores, decreasing = TRUE)
+  sortn=order(scores, decreasing = TRUE)
+  real=real[sortn]
+  scores=scores[sortn]
   FP=0
   TP=0
-  R=c()
-  fprev=9999999999
+  fprev=-Inf
   i=1
-  N=
-  P=
-  while (i<=fprev) {
-    if (scores[i]<fpre) {
-      
+  real2=real[real=target]
+  P=length(real2)
+  N=length(real)-P
+  RX=c()
+  RY=c()
+  k=1
+  while (i<=length(scores)) {
+    if (scores[i]!=fprev) {
+      RX[k]=FP/N
+      RY[k]=TP/P
+      fprev=scores[i]
+      k=k+1
     }
-    
-    ifelse(scores[i]>0,TP=TP+1,FP=FP+1)
+    if(real[i]==target){
+      TP=TP+1
+    }else{
+      FP=FP+1
+    }
     i=i+1
   }
-  
+  RX[k]=FP/N
+  RY[k]=TP/P
+  print(RX)
+  print(RY)
   # Generar curva
+  plot(RX,RY,type="b",xlab = "FP-RATE",ylab = "TP-RATE",main = "ROC Curve")
+  lines(RX,RY)
+  points(RX,RY,col = 2, pch = 19)
 }
 
-y = c(2, 2, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1)
+real = c(2, 2, 1, 2, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 1)
 scores = c(0.9, 0.8, 0.7, 0.6, 0.55, 0.54, 0.53, 0.52, 0.5, 0.5, 0.5, 0.5, 0.38, 0.37, 0.36, 0.35, 0.34, 0.33, 0.30, 0.1)
 target = 2
 
-generate_ROC(scores,y,target)
+generate_ROC(scores,real,target)
 
 
 
